@@ -1,6 +1,6 @@
-## The script searches for all users with the specified filters in AD. 
+# The script searches for all users with the specified filters in AD. 
 
-# Configuration file
+## Configuration file
 	**server** - DNS name or IP address of the domain controller server. 
 	**user** - user with read access to the AD configuration. 
 	**password** - the user's password. 
