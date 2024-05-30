@@ -1,6 +1,6 @@
 # The script searches for all users with the specified filters in AD. 
 
-	The ldap3 library is used. To install it, run `pip install ldap3`.
+The ldap3 library is used. To install it, run `pip install ldap3`.
 
 ## Configuration file
 
