@@ -56,7 +56,6 @@ def read_AD():
 
     members = conn.entries[0].member.values if conn.entries else []
 
-    #print(f"Администраторы домена: {len(members)}")
     for member in members:
         current_user_list.append(member)
         #print(member)
