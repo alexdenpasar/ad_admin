@@ -15,16 +15,16 @@ def read_config():
         c_search_base_ad = config["AD"]["search_base"]
         c_search_filter_ad = config["AD"]["search_filter"]
         c_attributes_ad = config["AD"]["attributes"]
+        c_time_scanning = config["AD"]["time_scanning"]
+
         
         time.sleep(1)
 
-        return c_server_ad, c_user_ad, c_password_user_ad,c_search_base_ad, c_search_filter_ad, c_attributes_ad
+        return c_server_ad, c_user_ad, c_password_user_ad,c_search_base_ad, c_search_filter_ad, c_attributes_ad, c_time_scanning
 
 def check_users():
-
     with open('users.json', 'r', encoding='utf-8') as f:
         prev_user_list = json.load(f)
-        #print(prev_user_list)
 
     only_in_prev_user_list = [item for item in prev_user_list if item not in current_user_list]
     only_in_current_user_list = [item for item in current_user_list if item not in prev_user_list]
@@ -47,25 +47,23 @@ def check_users():
     current_user_list.clear()
 
 def read_AD():
-    server_ad, user_ad, password_user_ad, search_base_ad, search_filter_ad, attributes_ad = read_config()
+    global time_scanning
+
+    server_ad, user_ad, password_user_ad, search_base_ad, search_filter_ad, attributes_ad, time_scanning = read_config()
 
     server = Server(server_ad, get_info=ALL)
     conn = Connection(server, user=user_ad, password=password_user_ad, authentication=NTLM, auto_bind=True)
-
     conn.search(f'DC={search_base_ad.split(".")[0]},DC={search_base_ad.split(".")[1]}', f'(CN={search_filter_ad})', attributes=[f'{attributes_ad}'])
-
     members = conn.entries[0].member.values if conn.entries else []
 
     for member in members:
         current_user_list.append(member)
-        #print(member)
 
     conn.unbind()
 
     check_users()
 
 if __name__ == "__main__":
-
     while True:
         read_AD()
-        time.sleep(30)
+        time.sleep(int(time_scanning))
