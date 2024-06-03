@@ -4,6 +4,7 @@ import time
 import json
 import telebot
 import threading
+import os
 
 current_user_list = []
 
@@ -31,6 +32,10 @@ def read_config():
 
 def check_users():
     global user_add, user_remove
+    if not os.path.exists('users.json'):
+        with open('users.json', 'w', encoding='utf-8') as f:
+            json.dump("", f, ensure_ascii=False, indent=4)
+    
     with open('users.json', 'r', encoding='utf-8') as f:
         prev_user_list = json.load(f)
 
@@ -40,8 +45,8 @@ def check_users():
     if len(only_in_current_user_list) > 0:
         for user in only_in_current_user_list:  
             username = str(user).split(",")[0].replace("CN=","")
-            print(f"User '{username}' was granted {read_config()[4]} rights.")
-            user_add.append(f"User '{username}' was granted {read_config()[4]} rights.")            
+            print(f"User '{username}' was granted {read_config()[4]} rights .")
+            user_add.append(f"User '{username}' was granted {read_config()[4]}rights.")            
 
     if len(only_in_prev_user_list) >  0:        
         for user in only_in_prev_user_list:  
@@ -78,7 +83,7 @@ def bot():
 
     @bot.message_handler(commands=['start'])
     def handle_text(message):
-        bot.send_message(message.chat.id, "Start bot")
+        bot.send_message(message.chat.id, "Start bot!")
 
         while True:
             if len(user_add) > 0:               
