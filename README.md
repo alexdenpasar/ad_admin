@@ -10,3 +10,4 @@ The ldap3 library is used. To install it, run `pip install ldap3`.
 - `search_base` - domain name.
 - `search_filter` - specify the group in which you want to find users, for example, Domain Administrators.
 - `attributes` - specify the criterion by which you search in the group, for example, member.
+- `token_bot` - a unique token for your telegram bot, where notifications will be sent.
